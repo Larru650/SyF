@@ -1,0 +1,21 @@
+﻿{
+  "ApplicationInsights": {
+    "InstrumentationKey": ""
+  },
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  },
+
+  "MailSettings": {
+    "ToAddress": "alarru650@wsg.com"
+  },
+  "Data": {
+    "SyFContextConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SyFDb;Trusted_Connection=true;MultipleActiveResults=true;" //TODO CONNECTION STRING
+  }
+  }
+

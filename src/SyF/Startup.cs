@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SyF.Models;
 
 namespace SyF
 {
     public class Startup
     {
+        private IConfigurationRoot _config;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .SetBasePath(env.ContentRootPath) //contentroot is the root of our project, where our config file is
+                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
@@ -25,7 +28,7 @@ namespace SyF
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
-            Configuration = builder.Build();
+            _config = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -33,8 +36,13 @@ namespace SyF
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddSingleton(_config);//single instance that we share across everywhere
+
+
+            //Add framework services.
+           services.AddApplicationInsightsTelemetry(Configuration);
+
+            services.AddDbContext<SyFContext>(); //we add the config as a service so we can inject it in our other classes. Wiring up EF
 
             services.AddMvc();
         }

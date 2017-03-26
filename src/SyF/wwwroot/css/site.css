@@ -1,38 +1,57 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿
+#sidebar {
+    
+    background: #8e8e8e;
+    color: #000000;
+    position: fixed;
+    height: 100%;
+    width: 200px; 
+    overflow: hidden;
+    left: 0;
+    margin: 00px 0 00px 0;
+    transition: left ease .25s;
+   
+
+
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+#wrapper {
+    /*background-image:url(../img/refrigerator-clipart-refrigerator-outline-png-0CuJd0-clipart.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;*/
+    background: #282626;
+    color: #ffffff;
+    height:100%;
+    margin: 0 0 0 200px;
+    transition: margin-left ease .25s;
+
+
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
+#sidebar.hide-sidebar {
+        left: -200px;
+        -moz-transition: left ease .25s;
+        -o-transition: left ease .25s;
+        -webkit-transition: left ease .25s;
+        transition: left ease .25s;
+    }
+
+#wrapper.hide-sidebar {
+    margin-left: 0;
+    -moz-transition: margin-left ease .25s;
+    -o-transition: margin-left ease .25s;
+    -webkit-transition: margin-left ease .25s; /*these are the vendor specifics-in case this property is not supported for all the browsers */
+    transition: margin-left ease .25s;
+}
+#sidebar .image{
+    margin: 0 0 0 40px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"]
-{
+#footer {
+    background-color: #222;
+    color: #eee;
+    padding: 8px 6px;
+    position: fixed;
+    bottom: 0;
     width: 100%;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
-    display: none
-  }
 }
