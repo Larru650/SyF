@@ -1,7 +1,5 @@
 ﻿{
-  "ApplicationInsights": {
-    "InstrumentationKey": ""
-  },
+  
   "Logging": {
     "IncludeScopes": false,
     "LogLevel": {
@@ -15,7 +13,7 @@
     "ToAddress": "alarru650@wsg.com"
   },
   "Data": {
-    "SyFContextConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SyFDb;Trusted_Connection=true;MultipleActiveResults=true;" //TODO CONNECTION STRING
+    "SyFContextConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SyFDb;Trusted_Connection=true;MultipleActiveResultSets=true;" //TODO CONNECTION STRING
   }
   }
 
