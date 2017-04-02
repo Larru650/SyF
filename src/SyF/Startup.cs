@@ -46,6 +46,10 @@ namespace SyF
            
             services.AddLogging();
 
+            services.AddScoped<ISyFRepository, SyFRepository>();
+
+            services.AddTransient<SyFSeedData>();
+
             services.AddMvc(config =>
             {
                 if (_env.IsProduction())
@@ -62,7 +66,8 @@ namespace SyF
         }
         public void Configure(IApplicationBuilder app,
        IHostingEnvironment env,
-       ILoggerFactory factory)
+       ILoggerFactory factory,
+       SyFSeedData seeder)
         {
         
 
@@ -89,7 +94,10 @@ namespace SyF
                   );
             });
 
-            
+            seeder.SeedData().Wait(); //we can't make an async call hence we are using wait instead
+
+
+
         }
     }
 }

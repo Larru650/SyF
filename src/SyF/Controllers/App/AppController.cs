@@ -12,19 +12,29 @@ namespace SyF.Controllers
     public class AppController : Controller
     {
         private IConfigurationRoot _config;
-        private SyFContext _context;
         private ILogger<AppController> _logger;
+        private ISyFRepository _repository;
 
-        public AppController(IConfigurationRoot config, SyFContext context, ILogger<AppController> logger)
+        public AppController(IConfigurationRoot config, ISyFRepository repository, ILogger<AppController> logger)
         {
             _config = config;
-            _context = context;
             _logger = logger;
+            _repository = repository;
         }
         public IActionResult Index()
         {
-            var data = _context.Recipes.ToList();
-            return View(data);
+            try
+            {
+                var data = _repository.GetAllRecipes();
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Could not get recipe from Database : {ex.Message}");
+                return Redirect("/error");
+            }
+        
         }
 
         public IActionResult About()

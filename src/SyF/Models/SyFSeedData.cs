@@ -19,7 +19,7 @@ namespace SyF.Models
 
         public async Task SeedData()
         {
-            if(!_context.Recipes.Any(/*add any qual. test*/))
+            if(!_context.Recipes.Any())/*add any qual. test*/
             {
                 var teriyaki = new Recipe()
                 {
@@ -28,12 +28,42 @@ namespace SyF.Models
                     UserName = "", //TODO AUTH
                     Ingredients = new List<Ingredient>()
                     {
+                        new Ingredient() { Name = "Soy Sauce", DisplayIndex = 1241 , Quantity = 630  },
+                        new Ingredient() { Name = "Honey", DisplayIndex = 1242 , Quantity = 640  },
+                        new Ingredient() { Name = "Ginger", DisplayIndex = 12224 , Quantity = 660  }
+
+
 
                     }
                 };
 
                 _context.Recipes.Add(teriyaki);
                 _context.Ingredients.AddRange(teriyaki.Ingredients);
+
+
+                var kaleandBS = new Recipe()
+                {
+                    Name = "Kale and Butternut Squash",
+                    DateCreated = DateTime.UtcNow,
+                    UserName = "", //TODO AUTH  
+                    Ingredients = new List<Ingredient>()
+                    {
+                        new Ingredient() { Name = "Kale", DisplayIndex = 124 , Quantity = 60  },
+                        new Ingredient() { Name = "Butternut Squash", DisplayIndex = 142 , Quantity = 1  },
+                        new Ingredient() { Name = "Raisins", DisplayIndex = 1231 , Quantity = 10  },
+                        new Ingredient() { Name = "Olive Oil", DisplayIndex = 1249 , Quantity = 5  }
+                        
+                    }
+
+                };
+
+                _context.Recipes.Add(kaleandBS);
+                _context.Ingredients.AddRange(kaleandBS.Ingredients);
+
+
+                await _context.SaveChangesAsync();
+
+                
             }
         }
     }

@@ -12,8 +12,6 @@ namespace SyF.Models
         public string Name { get; set; }  //recipe name   
         public DateTime DateCreated { get; set; }
         public string UserName { get; set; }  //we can get recipes for individual users
-
-
         public ICollection<Ingredient> Ingredients { get; set; } //as we will want to add and remove stops we can't use a IEnumerable (as is read only)
 
     }

@@ -1,4 +1,6 @@
-﻿@{ 
+﻿@model IEnumerable<SyF.Models.Recipe>
+
+@{
 
     ViewBag.Title = "Home";
 }
@@ -7,8 +9,20 @@
     <div class="col-md-12">
         <h1 class="modal-header">Stuff your Fridge</h1>
         <p>This app will let you save your favourite recipes<p>
-        <a class="btn btn-lg btn-info">Go to my recipes</a>
-                                                                
+            <a class="btn btn-lg btn-info">Go to my recipes</a>
+
+            <ul>
+                @foreach (var item in Model)
+
+                {
+                <li>@item.Name : @item.DateCreated.ToString("d")</li>
+
+                }
+
+
+            </ul>
+
+
     </div>
 
 
