@@ -20,7 +20,8 @@
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.1",
     "Microsoft.Extensions.Logging.Debug": "1.1.1",
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0"
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
+    "AutoMapper": "6.0.2"
   },
   "Microsoft.Extensions.Configuration.Json": "1.0.1",
   "Microsoft.Extensions.Logging.Console": "1.0.1",

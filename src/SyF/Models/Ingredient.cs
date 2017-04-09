@@ -13,6 +13,7 @@ namespace SyF.Models
         public string Name { get; set; }
         public int DisplayIndex { get; set; } //order
         public double Quantity { get; set; }
+        public string Recipe { get; set; }
 
     }
 }

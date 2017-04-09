@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using SyF.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
+using AutoMapper;
+using SyF.ViewModels;
+using SyF.Services;
 
 namespace SyF
 {
@@ -48,6 +51,8 @@ namespace SyF
 
             services.AddScoped<ISyFRepository, SyFRepository>();
 
+            services.AddTransient<EdamamService>();
+
             services.AddTransient<SyFSeedData>();
 
             services.AddMvc(config =>
@@ -69,7 +74,16 @@ namespace SyF
        ILoggerFactory factory,
        SyFSeedData seeder)
         {
-        
+
+            Mapper.Initialize(config =>
+
+            {
+                config.CreateMap<RecipeViewModel, Recipe>().ReverseMap();//map from viewmodel to entity and reverse it so we have bidirectional mapping
+                config.CreateMap<IngredientViewModel, Ingredient>().ReverseMap();
+
+            }
+
+            );
 
             if (env.IsEnvironment("Development"))
             {

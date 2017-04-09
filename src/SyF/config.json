@@ -14,6 +14,10 @@
   },
   "Data": {
     "SyFContextConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SyFDb;Trusted_Connection=true;MultipleActiveResultSets=true;" //TODO CONNECTION STRING
+  },
+  "Keys": {
+    "EdamamKey": "PLEASEUSEYOUROWNKEY",
+    "EdamamId": "PLEASEUSEOWNID"
   }
   }
 
