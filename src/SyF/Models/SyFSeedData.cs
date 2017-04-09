@@ -48,10 +48,10 @@ namespace SyF.Models
                     UserName = "", //TODO AUTH  
                     Ingredients = new List<Ingredient>()
                     {
-                        new Ingredient() { Name = "Kale", DisplayIndex = 124 , Quantity = 60  },
-                        new Ingredient() { Name = "Butternut Squash", DisplayIndex = 142 , Quantity = 1  },
-                        new Ingredient() { Name = "Raisins", DisplayIndex = 1231 , Quantity = 10  },
-                        new Ingredient() { Name = "Olive Oil", DisplayIndex = 1249 , Quantity = 5  }
+                        new Ingredient() { Name = "Kale", DisplayIndex = 1 , Quantity = 60  },
+                        new Ingredient() { Name = "Butternut Squash", DisplayIndex = 2 , Quantity = 1  },
+                        new Ingredient() { Name = "Raisins", DisplayIndex = 3 , Quantity = 10  },
+                        new Ingredient() { Name = "Olive Oil", DisplayIndex = 4 , Quantity = 5  }
                         
                     }
 
