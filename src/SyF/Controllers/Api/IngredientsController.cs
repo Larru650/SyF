@@ -31,6 +31,9 @@ namespace SyF.Controllers.Api
         {
             try
             {
+                //TODO get recipe name by ingredient
+
+
                 var recipe = _repository.GetRecipe(recipeName);
 
               
@@ -66,7 +69,7 @@ namespace SyF.Controllers.Api
 
                     else {
 
-                     newIngredient.Recipe = result.RecipeLabel;
+                     newIngredient.RecipeName = result.RecipeLabel;
                     _repository.AddIngredient(recipeName, newIngredient);
 
                     if (await _repository.SaveChangesAsync())
