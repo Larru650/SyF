@@ -1,6 +1,6 @@
 ﻿namespace SyF.Services
 {
-    public class IngredientListResult
+    public class RecipeListResult
     {
         public bool Success { get; set; }
         public string Message { get; set; }

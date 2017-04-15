@@ -8,9 +8,10 @@ using SyF.Models;
 namespace SyF.Migrations
 {
     [DbContext(typeof(SyFContext))]
-    partial class SyFContextModelSnapshot : ModelSnapshot
+    [Migration("20170415092924_testingEdamam")]
+    partial class testingEdamam
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

@@ -18,7 +18,7 @@ namespace SyF.ViewModels
 
         public double Quantity { get; set; }
 
-        public string Recipe { get; set; } //we will have to convert this to foreign key
+        public string RecipeName { get; set; } //we will have to convert this to foreign key
 
     }
 }
