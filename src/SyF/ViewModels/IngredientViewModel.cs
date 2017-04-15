@@ -13,11 +13,8 @@ namespace SyF.ViewModels
         [Required]
         [StringLength(100, MinimumLength = 2)]
         public string Name { get; set; }
-
         public int DisplayIndex { get; set; } //order
-
         public double Quantity { get; set; }
-
         public string RecipeName { get; set; } //we will have to convert this to foreign key
 
     }

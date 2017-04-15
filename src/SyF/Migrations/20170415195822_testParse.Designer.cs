@@ -8,9 +8,10 @@ using SyF.Models;
 namespace SyF.Migrations
 {
     [DbContext(typeof(SyFContext))]
-    partial class SyFContextModelSnapshot : ModelSnapshot
+    [Migration("20170415195822_testParse")]
+    partial class testParse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -49,13 +50,9 @@ namespace SyF.Migrations
 
                     b.Property<string>("FromPage");
 
-                    b.Property<string>("Image");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("ToPage");
-
-                    b.Property<string>("Url");
 
                     b.Property<string>("UserName");
 
