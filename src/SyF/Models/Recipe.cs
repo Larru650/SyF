@@ -13,7 +13,13 @@ namespace SyF.Models
         public string Name {  get; set; }  //recipe name   
         public DateTime DateCreated { get; set; }
         public string UserName { get; set; }  //we can get recipes for individual users
-        public ICollection<Ingredient> Ingredients { get; set; } //as we will want to add and remove stops we can't use a IEnumerable (as is read only)
+        public string FromPage { get; set; } 
+        public string ToPage { get; set; }
+        public int Calories { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; } //as we will want to add and remove ingredients we can't use IEnumerable (as is read only)
+        public string Image { get; set; }
+        public string Url { get; set; }
         
+
     }
 }

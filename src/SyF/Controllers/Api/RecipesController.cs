@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SyF.Models;
+using SyF.Services;
 using SyF.ViewModels;
 using System;
 using System.Collections;
@@ -12,20 +13,22 @@ using System.Threading.Tasks;
 
 namespace SyF.Controllers.Api
 {
-    [Route("api/recipes")]
+    
     public class RecipesController : Controller
     {
         private ILogger<RecipesController> _logger;
         private ISyFRepository _repository;
+        private EdamamService _recipeService;
 
-        public RecipesController(ISyFRepository repository, ILogger<RecipesController> logger)
+        public RecipesController(ISyFRepository repository, ILogger<RecipesController> logger, EdamamService recipeService)
         {
             _repository = repository;
             _logger = logger; //so we can log the exception error
+            _recipeService = recipeService; //add edamam service into the recipescontroller
 
         }
 
-        [HttpGet("")]
+        [HttpGet("api/recipes")]
         public IActionResult Get(string recipeName)
         {
             try
@@ -43,7 +46,7 @@ namespace SyF.Controllers.Api
             
         }
 
-        [HttpPost("")]
+        [HttpPost("api/recipes")]
         public async Task<IActionResult> Post([FromBody] RecipeViewModel theRecipe)
         {
             
@@ -63,6 +66,55 @@ namespace SyF.Controllers.Api
 
             return BadRequest("Bad data");
 
+        }
+
+        [HttpPost("api/recipes/newRecipe")]
+        public async Task<IActionResult> GetRecipeEdamam(string newRecipe, [FromBody]RecipeViewModel vm) //we pass the vm with 3 props from body: recipe name(q=), frompage,topage)
+        {
+
+            try
+            {
+                //validation
+                if (ModelState.IsValid)
+                {
+                    var temporaryRecipe = Mapper.Map<Recipe>(vm);
+                    
+                    
+                    //TODO lookup edamam database recipe by ingredients
+
+                    var result = await _recipeService.EdamamAsync(temporaryRecipe.Name, temporaryRecipe.FromPage, temporaryRecipe.ToPage); //will look up into edamam object response and find the recipe name by the ingredient name
+
+                    if (!result.Success)
+                    {
+                        _logger.LogError(result.Message);
+                    }
+
+                    else
+                    {
+
+                        temporaryRecipe.Name = result.RecipeLabel; //we manually map the result properties from edamam service to the model 
+                        temporaryRecipe.Calories = result.Calories; 
+                        _repository.AddRecipe(temporaryRecipe);
+
+                        if (await _repository.SaveChangesAsync())
+                        {
+
+                            return Created($"api/recipes/{temporaryRecipe.Name}",
+                                           Mapper.Map<RecipeViewModel>(temporaryRecipe)); //this class allows us to return both URI and Object
+                        }
+                    }
+                }
+
+                //ingredientviewmodel --> ingredient (entity) ---> ingredientviewmodel. as we have added the reversed method into startup, we can do this now
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError("could not save new ingredients {0}", ex);
+            }
+
+            return BadRequest("Failed to save new Ingredients");
         }
     }
 }

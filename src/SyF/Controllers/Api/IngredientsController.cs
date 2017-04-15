@@ -49,7 +49,7 @@ namespace SyF.Controllers.Api
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post(string recipeName,[FromBody]IngredientViewModel vm)
+        public async Task<IActionResult> Post(string recipeName,[FromBody]IngredientViewModel vm) 
         {
 
             try
