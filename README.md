@@ -3,7 +3,7 @@
 
 # Stuff Your Fridge
 
-Stuff Your Fridge is a C# under Asp.net Core application that allows you to create and store food recipes and pull existing ones from Edamam database.
+Stuff Your Fridge is an ongoing C# under Asp.net Core web application that allows you to create and store food recipes and pull existing ones from Edamam database.
 
 ### Core features
 
