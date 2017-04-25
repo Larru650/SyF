@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SyF.Models;
@@ -13,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace SyF.Controllers.Api
 {
-    
-    public class RecipesController : Controller
+[Authorize]
+public class RecipesController : Controller
     {
         private ILogger<RecipesController> _logger;
         private ISyFRepository _repository;
@@ -33,7 +34,7 @@ namespace SyF.Controllers.Api
         {
             try
             {
-                var recipe = _repository.GetAllRecipes();
+                var recipe = _repository.GetRecipesByUser(this.User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<RecipeViewModel>>(recipe).ToList());
             }
             catch (Exception ex)
@@ -54,7 +55,9 @@ namespace SyF.Controllers.Api
             if (ModelState.IsValid)
             {
                 var newRecipe = Mapper.Map<Recipe>(theRecipe);
-                //TODO AddRecipe 
+
+                newRecipe.UserName = User.Identity.Name;
+
                 _repository.AddRecipe(newRecipe);
 
                 if(await _repository.SaveChangesAsync())
@@ -68,6 +71,7 @@ namespace SyF.Controllers.Api
 
         }
 
+        [Authorize]
         [HttpPost("api/recipes/newRecipe")]
         public async Task<IActionResult> GetRecipeEdamam(string newRecipe, [FromBody]RecipeViewModel vm) //we pass the vm with 3 props from body: recipe name(q=), frompage,topage)
         {

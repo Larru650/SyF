@@ -13,6 +13,8 @@ using Newtonsoft.Json.Serialization;
 using AutoMapper;
 using SyF.ViewModels;
 using SyF.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace SyF
 {
@@ -67,6 +69,34 @@ namespace SyF
                 config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            services.AddIdentity<SyFUser, IdentityRole>(config =>
+            {
+                config.Password.RequiredLength = 8;
+                config.User.RequireUniqueEmail = true;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = async ctx =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api/") && 
+                        ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 401; // if we get an OK status and we are triying to redirect on login we will redirect to api
+                        }
+                        else
+                        {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        
+                        }
+
+                        await Task.Yield();//complete the task
+
+                    }
+
+                };
+            })
+            .AddEntityFrameworkStores<SyFContext>(); //we will store Identities in our dbcontext SyFContext
+
 
         }
         public void Configure(IApplicationBuilder app,
@@ -74,6 +104,9 @@ namespace SyF
        ILoggerFactory factory,
        SyFSeedData seeder)
         {
+
+            app.UseIdentity();//we turn on Identity before anything else
+
 
             Mapper.Initialize(config =>
 
