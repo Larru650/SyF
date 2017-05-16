@@ -13,7 +13,7 @@
         vm.errorMessage = ""; //we can create members in the vm that represent non functional data
         vm.isBusy = true;
         $http.get("api/recipes")
-            .then(function (response) {
+            .then(function (response) { 
                 
                 angular.copy(response.data, vm.recipes); // it has been already converted from json to an object graph for us
                
@@ -42,27 +42,12 @@
                     vm.newRecipe={};
                 }, function(error){
                 
-                    vm.errorMessage = "Failed to save new trip";
+                    vm.errorMessage = "Failed to save new recipe";
                 }).finally(function(){
 
                     vm.isBusy=false;
                 });
             };
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 })();

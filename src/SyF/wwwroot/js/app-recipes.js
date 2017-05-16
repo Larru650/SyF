@@ -14,13 +14,13 @@
                     controller: "recipesController",
                     controllerAs: "vm",
                     templateUrl: "views/recipesView.html"
-                });
-            
-              
-
-
-            $routeProvider.otherwise({ redirectTo: "/" });
-         
+                })
+            .when("/search", {
+                controller: "findController",
+                controllerAs: "vm",
+                templateUrl: "views/findView.html"
+            });
+            $routeProvider.otherwise({ redirectTo: "/" });     
            
         });
 

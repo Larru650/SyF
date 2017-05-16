@@ -14,12 +14,15 @@
 
         var vm = this;
 
-        
-
         vm.redirect = function () {
 
             $location.path("/recipes");
 
+        };
+
+        vm.redirectToSearch = function () {
+
+            $location.path("/search");
         };
  }
 })();

@@ -1,16 +1,24 @@
-﻿<div class="col-md-10 col-md-offset-3">
+﻿<div><a href="/" class="btn btn-sm btn-default"><i class="fa fa-sm fa-angle-left"></i>Back</a></div>
+<div class="col-md-10 col-md-offset-3">
     <div class="text-danger" ng-show="vm.errorMessage">{{vm.errorMessage}}</div>
     <div class="text-center" ng-show="vm.isBusy"><i class="fa fa-spinner fa-spin"></i>Loading...</div>
     <table class="table-responsive table-striped table-bordered align-content-xl-center">
-        <tr ng-repeat="recipe in vm.recipes">
-            <td>{{recipe.name}}</td>
-            <td>{{recipe.calories}}</td>
-            <td>{{recipe.date | date: "MM-dd-yyyy"}}</td> <!--date is a filter that helps us format the date-->
-            <td><a href="#" class="btn btn-sm btn-primary">Manage</a></td>
-
-        </tr> <!--ng-repeat is a directive that will allow us to iterate through a collection and build up the markup-->
+    <thead>
+            <tr>
+                <th>Name</th>
+                <th>Calories</th>
+                <th>Date Created</th>
+            </tr>
+    </thead>
+        <tbody>
+            <tr ng-repeat="recipe in vm.recipes">
+                <td>{{recipe.name}}</td>
+                <td>{{recipe.calories}}</td>
+                <td>{{recipe.date | date: "MM-dd-yyyy"}}</td> <!--date is a filter that helps us format the date-->
+                <td><a href="#" class="btn btn-sm btn-primary">Manage</a></td>
+            </tr> <!--ng-repeat is a directive that will allow us to iterate through a collection and build up the markup-->
+        </tbody>
     </table>
-
     <form novalidate name="newRecipeForm" ng-submit="vm.addRecipe()">
         <div class="form-group">
             <label for="name">Recipe Name</label>
@@ -18,7 +26,7 @@
             <span ng-show="newRecipeForm.name.$error.required" class="text-warning">Name is required</span>
             <span ng-show="newRecipeForm.name.$error.minlength" class="text-warning">Recipe must be at least two characters long</span>
 
-        </div>
+    </div>
         <div class="form-group">
             <input type="submit" value="Add" class="btn btn-sm btn-success" ng-disabled="newRecipeForm.$invalid" />
         </div>
