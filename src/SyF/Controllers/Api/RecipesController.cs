@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SyF.Models;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SyF.Controllers.Api
 {
-    
+    [Authorize]
     public class RecipesController : Controller
     {
         private ILogger<RecipesController> _logger;
@@ -25,7 +26,6 @@ namespace SyF.Controllers.Api
             _repository = repository;
             _logger = logger; //so we can log the exception error
             _recipeService = recipeService; //add edamam service into the recipescontroller
-
         }
 
         [HttpGet("api/recipes")]
@@ -33,7 +33,7 @@ namespace SyF.Controllers.Api
         {
             try
             {
-                var recipe = _repository.GetAllRecipes();
+                var recipe = _repository.GetRecipesByUser(this.User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<RecipeViewModel>>(recipe).ToList());
             }
             catch (Exception ex)
@@ -43,21 +43,23 @@ namespace SyF.Controllers.Api
 
                 return BadRequest("Error occurred");
             }
-            
+
         }
 
         [HttpPost("api/recipes")]
         public async Task<IActionResult> Post([FromBody] RecipeViewModel theRecipe)
         {
-            
+
 
             if (ModelState.IsValid)
             {
                 var newRecipe = Mapper.Map<Recipe>(theRecipe);
-                //TODO AddRecipe 
+
+                newRecipe.UserName = User.Identity.Name;
+
                 _repository.AddRecipe(newRecipe);
 
-                if(await _repository.SaveChangesAsync())
+                if (await _repository.SaveChangesAsync())
                 {
                     return Created($"api/recipes/{theRecipe.Name}", Mapper.Map<RecipeViewModel>(newRecipe));
 
@@ -68,7 +70,8 @@ namespace SyF.Controllers.Api
 
         }
 
-        [HttpPost("api/recipes/newRecipe")]
+        [Authorize]
+        [HttpPost("api/recipes/newRecipe")]//try a get. new recipe changed to bind it with angular
         public async Task<IActionResult> GetRecipeEdamam(string newRecipe, [FromBody]RecipeViewModel vm) //we pass the vm with 3 props from body: recipe name(q=), frompage,topage)
         {
 
@@ -78,11 +81,14 @@ namespace SyF.Controllers.Api
                 if (ModelState.IsValid)
                 {
                     var temporaryRecipe = Mapper.Map<Recipe>(vm);
-                    
-                    
+
+
                     //TODO lookup edamam database recipe by ingredients
 
-                    var result = await _recipeService.EdamamAsync(temporaryRecipe.Name, temporaryRecipe.FromPage, temporaryRecipe.ToPage); //will look up into edamam object response and find the recipe name by the ingredient name
+                    //var result = await _recipeService.EdamamAsync(temporaryRecipe.Name, temporaryRecipe.FromPage, temporaryRecipe.ToPage); //will look up into edamam object response and find the recipe name by the ingredient name
+
+                    var result = await _recipeService.EdamamAsync(temporaryRecipe.Name, temporaryRecipe.Calories); //will look up into edamam object response and find the recipe name by the ingredient name
+
 
                     if (!result.Success)
                     {
@@ -93,7 +99,7 @@ namespace SyF.Controllers.Api
                     {
 
                         temporaryRecipe.Name = result.RecipeLabel; //we manually map the result properties from edamam service to the model 
-                        temporaryRecipe.Calories = result.Calories; 
+                        temporaryRecipe.Calories = result.Calories;
                         _repository.AddRecipe(temporaryRecipe);
 
                         if (await _repository.SaveChangesAsync())
@@ -115,6 +121,29 @@ namespace SyF.Controllers.Api
             }
 
             return BadRequest("Failed to save new Ingredients");
+        }
+
+
+
+
+       
+        [HttpGet("api/recipes/{newRecipe}")]//try a get. new recipe changed to bind it with angular
+        public async Task<IActionResult> GetRecipesForAngular([FromRoute]string newRecipe) //we pass the vm with 3 props from body: recipe name(q=), frompage,topage)
+        {
+            
+            
+            //TODO lookup edamam database recipe by ingredients
+
+            //var result = await _recipeService.EdamamAsync(temporaryRecipe.Name, temporaryRecipe.FromPage, temporaryRecipe.ToPage); //will look up into edamam object response and find the recipe name by the ingredient name
+
+            var result = await _recipeService.EdamamAsync(newRecipe); //will look up into edamam object response and find the recipe name by the ingredient name
+
+            newRecipe = result;
+
+            return Ok(newRecipe); //this class allows us to return both URI and Object
+
+
+
         }
     }
 }

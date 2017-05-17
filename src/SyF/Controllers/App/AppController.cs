@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SyF.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SyF.Controllers
 {
@@ -21,6 +22,8 @@ namespace SyF.Controllers
             _logger = logger;
             _repository = repository;
         }
+
+        [Authorize]
         public IActionResult Index()
         {
             try
@@ -42,6 +45,13 @@ namespace SyF.Controllers
             ViewData["Message"] = "Your application description page.";
 
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Recipes()
+        {
+            return View();
+
         }
 
         public IActionResult Contact()

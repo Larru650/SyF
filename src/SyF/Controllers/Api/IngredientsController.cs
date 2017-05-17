@@ -26,72 +26,72 @@ namespace SyF.Controllers.Api
             _recipeService = recipeService;
         }
 
-        [HttpGet("")]
-        public IActionResult Get(string recipeName)
-        {
-            try
-            {
-                //TODO get recipe name by ingredient
+//        [HttpGet("")]
+//        public IActionResult Get(string recipeName)
+//        {
+//            try
+//            {
+//                //TODO get recipe name by ingredient
 
 
-                var recipe = _repository.GetRecipe(recipeName);
+//                var recipe = _repository.GetRecipe(recipeName);
 
               
-                return Ok(Mapper.Map<IEnumerable<IngredientViewModel>>(recipe.Ingredients.OrderBy(i => i.DisplayIndex).ToList()));
+//                return Ok(Mapper.Map<IEnumerable<IngredientViewModel>>(recipe.Ingredients.OrderBy(i => i.DisplayIndex).ToList()));
 
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Unable to pull ingredient list from database {0}", ex);
-            }
+//            }
+//            catch (Exception ex)
+//            {
+//                _logger.LogError("Unable to pull ingredient list from database {0}", ex);
+//            }
 
-            return BadRequest("Failed to get ingredients");
-        }
+//            return BadRequest("Failed to get ingredients");
+//        }
 
-        [HttpPost("")]
-        public async Task<IActionResult> Post(string recipeName,[FromBody]IngredientViewModel vm) 
-        {
+//        [HttpPost("")]
+//        public async Task<IActionResult> Post(string recipeName,[FromBody]IngredientViewModel vm) 
+//        {
 
-            try
-            {
-                //validation
-                if (ModelState.IsValid)
-                {
-                    var newIngredient = Mapper.Map<Ingredient>(vm);
-                    //TODO lookup edamam database recipe by ingredients
+//            try
+//            {
+//                //validation
+//                if (ModelState.IsValid)
+//                {
+//                    var newIngredient = Mapper.Map<Ingredient>(vm);
+//                    //TODO lookup edamam database recipe by ingredients
 
-                    var result = await _recipeService.EdamamAsync(newIngredient.Name); //will look up into edamam object response and find the recipe name by the ingredient name
+//                    var result = await _recipeService.EdamamAsync(newIngredient.Name); //will look up into edamam object response and find the recipe name by the ingredient name
 
-                    if (!result.Success)
-                    {
-                        _logger.LogError(result.Message);
-                    }
+//                    if (!result.Success)
+//                    {
+//                        _logger.LogError(result.Message);
+//                    }
 
-                    else {
+//                    else {
 
-                     newIngredient.RecipeName = result.RecipeLabel;
-                    _repository.AddIngredient(recipeName, newIngredient);
+//                     newIngredient.RecipeName = result.RecipeLabel;
+//                    _repository.AddIngredient(recipeName, newIngredient);
 
-                    if (await _repository.SaveChangesAsync())
-                    { 
+//                    if (await _repository.SaveChangesAsync())
+//                    { 
 
-                    return Created($"api/recipes/{recipeName}/{newIngredient.Name}", 
-                                   Mapper.Map<IngredientViewModel>(newIngredient)); //this class allows us to return both URI and Object
-                    }
-                    }
-                }
+//                    return Created($"api/recipes/{recipeName}/{newIngredient.Name}", 
+//                                   Mapper.Map<IngredientViewModel>(newIngredient)); //this class allows us to return both URI and Object
+//                    }
+//                    }
+//                }
 
-                //ingredientviewmodel --> ingredient (entity) ---> ingredientviewmodel. as we have added the reversed method into startup, we can do this now
+//                //ingredientviewmodel --> ingredient (entity) ---> ingredientviewmodel. as we have added the reversed method into startup, we can do this now
 
-            }
-            catch (Exception ex)
-            {
+//            }
+//            catch (Exception ex)
+//            {
 
-                _logger.LogError("could not save new ingredients {0}", ex);
-            }
+//                _logger.LogError("could not save new ingredients {0}", ex);
+//            }
 
-            return BadRequest("Failed to save new Ingredients");
-        }
+//            return BadRequest("Failed to save new Ingredients");
+//        }
         
-    }
+   }
 }

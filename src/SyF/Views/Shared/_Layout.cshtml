@@ -1,28 +1,42 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+   
+        
+   
     <title>@ViewBag.Title - SyF</title>
     <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/lib/bootswatch/slate/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootswatch/yeti/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
-  
+
 
 </head>
 <body>
 
     <div id="sidebar">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span>@User.Identity.Name</span> <!--we are not getting it from the database but from the asp.net info-->
+
+        }
+
         <ul class="nav navbar navbar-collapse">
-            <li class="active"><a asp-controller="Home" asp-action="Index">My Recipes</a></li>
-            <li><a asp-controller="Home" asp-action="Recipes">Find a recipe</a></li>
-            <li><a asp-controller="Home" asp-action="Logout">Logout</a></li>
+            <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
+            <li><a asp-controller="App" asp-action="#">Sign Up</a></li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li><a asp-controller="App" asp-action="#">Find a Recipe</a></li>
+                <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
+            }
             <li class="image"><img src="~/img/fridge-48.ico"></li>
             <li></li>
         </ul>
     </div>
 
-    
+
 
     <div id="wrapper">
         <button id="sidebarToggle" class="btn btn-primary">
@@ -32,33 +46,29 @@
 
 
 
-            <div>
-                @RenderBody() @*placeholder, this is the part of the page where im injecting*@
-                <!--shift+alt+w to create a div block-->
+        <div>
+            @RenderBody() @*placeholder, this is the part of the page where im injecting*@
+            <!--shift+alt+w to create a div block-->
 
+        </div>
+    </div>
+
+
+
+    <div id="footer" class="container-fluid">
+        <div class="navbar navbar-inverse navbar-fixed-bottom">
+            <div>
+                <h4 class="text-center text-info">   &copy; 2017 Stuff your Fridge Ltd.</h4>
             </div>
         </div>
-
-
-
-            <div id="footer" class="container-fluid">
-                <div class="navbar navbar-inverse navbar-fixed-bottom">
-                    <div>
-                        <h4 class="text-center text-info">   &copy; 2017 Stuff your Fridge Ltd.</h4>
-                    </div>
-                </div>
-            </div>
-         
-           
-
-    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    </div>
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-
-
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
-  
 
-            @RenderSection("scripts", false)
-      
+
+    @RenderSection("scripts", false)
+
 </body>
 </html>

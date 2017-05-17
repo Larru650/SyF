@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html ng-app="app-recipes">
+<head>
+
+    <script src="../js/app-recipes.js"></script>
+    <script src="../js/homeController.js"></script>
+    <script src="../js/findController.js"></script>
+</head>
+<body>
+    <div ng-controller="findController">
+        <div><a href="/" class="btn btn-sm btn-default"><i class="fa fa-angle-left">Back</i></a></div>
+
+
+        <div class="text-center" ng-show="vm.isBusy"><i class="fa fa-spinner fa-spin"></i>Loading...</div>
+        <div class="row">
+            <div class="col-md-offset-4">
+                <form name="recipeSearch">
+                    <input type="search" placeholder="Enter an ingredient" ng-model="ingredient"/>
+                    <input type="button" ng-click="searchRecipe(ingredient)" class="btn btn-sm btn-primary" value="Search Recipe"></>
+                </form>
+            </div>
+        </div>
+        
+        <div ng-include="'views/findResults.html'"></div>
+    </div>
+</body>
+</html>
